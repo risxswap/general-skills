@@ -1,89 +1,108 @@
-# Java + Vue 开发技能
+# General Skills
 
-提供开发流程、Java 后端与前端专项和配套方法技能。架构与技术栈由项目 `AGENTS.md` 定义；缺少定义时，已有项目先分析实现，再与用户沟通确认，新项目引导用户选择，确认后记录。安装场景只选择技能，不决定项目架构。
+一套可组合的开发技能，覆盖需求讨论、业务建模、开发实现、缺陷诊断、代码审查和中文文档整理。目前提供 Java 后端与通用前端专项，通过 Go 安装工具按使用场景安装到项目或当前用户目录。
+
+项目的产品形态、运行平台、架构和技术栈由 `AGENTS.md` 定义。已有项目缺少说明时，先分析代码与配置，再与用户沟通确认；新项目引导用户选择，确认后按授权记录。技能不预设 MVC、Spring Boot、Vue 或 TypeScript。
+
+## 技能
 
 | 技能 | 用途 |
 | --- | --- |
-| [development-workflow](skills/development-workflow/SKILL.md) | 任务分流、行为切片、跨层契约与证据验收 |
-| [java-backend](skills/java-backend/SKILL.md) | 阿里规范映射、Java 实践、事务与服务端安全 |
-| [frontend-development](skills/frontend-development/SKILL.md) | 页面与组件、接口、交互和目标平台验证 |
-| [humanizer-zh](skills/humanizer-zh/SKILL.md) | 中文文档润色，保护事实、技术约束与完成状态 |
-| [diagnosing-bugs](skills/diagnosing-bugs/SKILL.md) | 复杂缺陷与性能回退的证据驱动诊断 |
-| [code-review](skills/code-review/SKILL.md) | 分别审查代码规范与需求实现 |
-| [business-modeling](skills/business-modeling/SKILL.md) | 澄清术语、关系、状态与约束，沿用项目架构 |
+| [development-workflow](skills/development-workflow/SKILL.md) | 区分讨论、规格整理、实施、诊断和审查，按用户行为组织开发与验证 |
+| [business-modeling](skills/business-modeling/SKILL.md) | 澄清业务术语、对象关系、状态和约束，沿用项目架构 |
+| [java-backend](skills/java-backend/SKILL.md) | Java 规约、接口、数据访问、事务、并发与后端验证 |
+| [frontend-development](skills/frontend-development/SKILL.md) | 页面、组件、状态、接口、交互和目标平台验证 |
+| [diagnosing-bugs](skills/diagnosing-bugs/SKILL.md) | 建立失败证据、检验候选原因并验证修复 |
+| [code-review](skills/code-review/SKILL.md) | 分别审查规范符合性与需求实现，报告有依据的发现 |
+| [humanizer-zh](skills/humanizer-zh/SKILL.md) | 润色中文文档，保留事实、技术约束和完成状态 |
 
-## 使用
+前端技能分别考虑使用场景（管理后台、面向消费者）、运行平台（Web、小程序、桌面或移动客户端）和技术实现，按任务组合使用。已有 Vue 专属参考仅在项目使用 Vue 时加载；其他技术沿用项目规范和对应官方资料。
 
-下载对应平台发布包，解压后运行 `general-skills`（Windows 为 `general-skills.exe`），按提示选择场景、项目级或用户级安装。不探测项目技术栈，项目级必须输入已有目录。
+Java 技能采用阿里巴巴 Java 开发手册的已映射子集，规则等级与适配依据见 [来源映射](skills/java-backend/references/alibaba-rule-mapping.md)。Spring Boot 单体实践为条件参考，不代表默认架构；当前不包含微服务专项规范。
 
-| 场景 | 技能 |
+## 安装
+
+使用与当前源码对应的平台包，解压后运行 `general-skills`，Windows 运行 `general-skills.exe`。无参数进入交互安装，由用户选择场景与安装范围，不自动探测项目。尚无对应发布包时，可按下文从源码打包。
+
+| 场景 | 安装内容 |
 | --- | --- |
-| `general` | 开发流程、业务建模、诊断、审查、中文润色 |
+| `general` | 开发流程、业务建模、缺陷诊断、代码审查、中文润色 |
 | `java` | 通用配套 + Java 后端 |
 | `frontend` | 通用配套 + 前端开发 |
 | `fullstack` | 全部七个技能 |
 
-项目级写入 `<项目>/.agents/skills`，用户级写入 `~/.agents/skills`，依据 [Codex 官方本地技能目录](https://learn.chatgpt.com/docs/build-skills)。不会修改旧 `.codex/skills`、用户的插件或业务源码；已有其他位置的同名技能需自行选择，避免重复触发。
+项目级安装到 `<项目>/.agents/skills`，用户级安装到 `~/.agents/skills`。项目级需指定已有目录；安装场景只决定安装哪些技能，不决定业务项目的架构或技术栈。
 
 ```sh
-./general-skills install --scenario java --scope project --project-dir /path/to/project
-./general-skills install --scenario fullstack --scope user
+# 预览项目级前端安装，不写入文件
 ./general-skills install --scenario frontend --scope project --project-dir /path/to/project --dry-run
+
+# 安装 Java 开发配套到项目
+./general-skills install --scenario java --scope project --project-dir /path/to/project
+
+# 安装全部技能到当前用户目录
+./general-skills install --scenario fullstack --scope user
 ```
 
-CLI 默认从可执行文件旁读取 `skills.bundle.zip`，与启动目录无关；也可通过 `--bundle PATH` 指定。发布包安装无需 Go、Python或网络。命令行遇到同名技能默认失败，显式使用 `--conflict skip` 保留原技能，或 `--conflict replace` 替换所选技能目录；替换会移除目录内旧文件及自定义文件。交互模式会先显示目录和技能，遇到冲突再选择取消、跳过或替换。
+保留可执行文件旁的 `skills.bundle.zip`，或用 `--bundle PATH` 指定技能包。使用已构建的平台包安装无需 Go、Python 或网络。
 
-Java 后端与前端开发是可选专项，公共技能会先检查是否安装再读取；必需公共配套随每个场景安装。安装新场景不删除旧场景之外的技能。跳过已有技能保留其原版本，安装器不能保证用户自定义版本的语义兼容。
+遇到同名技能，命令行默认停止；`--conflict skip` 保留已有版本，`--conflict replace` 完整替换所选技能目录，包括其中的自定义文件。交互模式会展示安装位置和技能，遇到冲突再选择处理方式。安装新场景不会删除未选技能，也不会改动业务源码。
 
-可以直接点名 `$java-backend`、`$frontend-development` 或 `$development-workflow`；也支持根据描述自动识别。示例：“使用 $java-backend 修复订单多步写入未回滚的问题”；“使用 $frontend-development 修复筛选请求乱序覆盖列表的问题”。
+**旧版迁移：** `vue-frontend` 已更名为 `frontend-development`，场景参数 `vue` 改为 `frontend`。安装器不自动删除旧技能，也不迁移 `.codex/skills` 等其他目录中的副本。检查并保存自定义内容后再移除旧副本，避免重复加载。旧版发布包仍保留旧命名，需要重新构建才能包含此次改造。
 
-手册已核对的子集、固定版本与适配说明见 [来源映射](skills/java-backend/references/alibaba-rule-mapping.md)。不包含微服务规范，不声称覆盖整个阿里手册。Java、Spring Boot 与 UI 库具体版本在业务项目中确定。
+## 使用示例
+
+可直接点名技能，也可通过任务描述触发：
+
+```text
+使用 $development-workflow，把刚才讨论的内容整理到现有需求规格，先不实施。
+使用 $business-modeling，梳理订单取消与退款的业务含义，先只讨论。
+使用 $java-backend，修复订单多步写入未回滚的问题并验证。
+使用 $frontend-development，修复筛选请求乱序覆盖列表的问题。
+使用 $diagnosing-bugs，定位偶发重复扣减，先只诊断。
+使用 $code-review，审查当前所有未提交修改，包含新增文件。
+使用 $humanizer-zh，润色这份中文说明，保留技术约束和验证状态。
+```
+
+开发流程按任务调用建模、诊断、审查和技术参考；它们也能独立使用。局部修改采用轻量流程，讨论或整理规格不会自动进入实施，只审查不会自动修复。Java 后端与前端专项按安装场景提供，未安装时沿用项目规范并说明缺口。
+
+各技能复用项目已有资料：`AGENTS.md` 记录项目约定，词汇表解释业务概念，Issue / Spec 描述需求与验收条件，ADR 记录重要取舍。详细规则见 [项目约定](skills/development-workflow/references/project-conventions.md)。
+
+## 从源码打包
+
+需要 Go 1.25+、Python 3 和 PyYAML。Go 打包与安装代码位于 `tools/`，仅使用标准库；`package.sh` 先运行技能结构检查，再构建平台包。
+
+在仓库根目录执行：
+
+```sh
+./package.sh
+
+# 只构建指定平台，输出目录必须不存在
+TARGETS=darwin/arm64,windows/amd64 OUTPUT=/tmp/general-skills-release ./package.sh
+
+# 直接调用 Go 打包器，执行内置包结构与场景引用检查
+# 此命令不代替 Python 技能元数据检查
+go -C tools run ./cmd/general-skills package --root .. --version 0.1.0 --output ../dist/custom --targets darwin/arm64
+```
+
+版本读取 `VERSION`，也可通过同名环境变量覆盖。默认构建 macOS、Windows、Linux 的 amd64/arm64 六个平台包，输出到 `dist/<版本>/`，已存在的目录不会覆盖。每个 ZIP 包含原生 CLI、技能包、使用说明和校验清单，外部另附 SHA-256。安装冲突、恢复方式和验证边界见 [打包安装说明](docs/packaging.md)。
 
 ## 维护与验证
-
-用 Python 3 和 PyYAML 执行本仓库检查：
 
 ```sh
 python3 scripts/validate_skills.py
 python3 -m unittest discover -s tests -p 'test_*.py'
-```
-
-此外，对每个技能使用环境提供的 skill-creator `scripts/quick_validate.py <skill-directory>` 校验。仓库检查验证技能 frontmatter、界面元数据、相对文件链接、从各技能自身入口到其嵌套参考的可达性，以及配套布局；不检查外网可用性或 Markdown 锚点，也不证明 Agent 行为正确。
-
-[行为场景](tests/skill-evals/README.md)用于后续隔离评测；场景定义与执行证据分离，尚未实跑的场景不能算通过。
-
-设计与实施状态分别见 [方案](docs/java-vue-skills-design.md)和[实施记录](docs/implementation.md)。
-
-中文文档生成和修改通过开发流程调用 humanizer-zh，也可单独点名使用。该技能复用参考项目的技术文档适配版，保留 [MIT 许可证](skills/humanizer-zh/references/LICENSE)。后续工程技能取舍见 [mattpocock 参考讨论](docs/mattpocock-discussion.md)。
-
-方法技能可以直接调用，例如：“使用 $diagnosing-bugs 定位偶发重复扣减，先只诊断”；“使用 $code-review 审查所有未提交修改，包含新增文件”。两项均按上游 MIT 许可改写，来源与适配分别记录在各自 references/provenance.md。
-
-开发流程先识别讨论、实施、诊断或审查模式；跨层功能按用户行为切片推进，分别记录实现和验证状态。局部修改保留轻量路径，不新增逐片审批或强制 TDD。
-
-业务建模可直接调用：“使用 $business-modeling 梳理订单取消与退款的含义，先只讨论”。实现沿用项目 `AGENTS.md` 中确认的架构；已有业务定义明确时直接沿用。
-
-各技能共用项目已有资料：词汇表解释业务概念，Issue / Spec 描述行为，ADR 记录重要取舍。没有资料时按需创建，不增加交接文件。
-
-需要沉淀讨论时，可说“把刚才讨论的内容整理成需求规格”。开发流程会归纳已定行为、决定、验证方式和未决项，优先更新已有 Spec，不自动实施或发布 Issue。
-
-## 打包工具
-
-Go 源码位于 `tools/`，仅使用标准库，需要 Go 1.25+。`package.sh` 是打包入口，打包前使用现有 Python/PyYAML 校验；核心打包和安装逻辑均为 Go。
-
-```sh
-./package.sh
-# 只构建指定平台，输出到新的目录
-TARGETS=darwin/arm64,windows/amd64 OUTPUT=/tmp/general-skills-release ./package.sh
-# 直接使用 Go 打包（执行内置包结构与场景引用校验）
-go -C tools run ./cmd/general-skills package --root .. --version 0.1.0 --output ../dist/custom --targets darwin/arm64
-```
-
-版本默认读取 `VERSION`，可通过同名环境变量覆盖。默认构建 macOS、Windows、Linux 的 amd64/arm64 六个平台包，输出 `dist/<版本>/`；输出目录已存在则拒绝覆盖。每个 ZIP 含原生 CLI、技能 ZIP、使用说明和校验清单，外部另附 SHA-256。完整维护和恢复说明见 [打包安装设计](docs/packaging.md)。
-
-```sh
 go -C tools test ./...
 go -C tools test -race ./...
 go -C tools vet ./...
 ```
 
-前端技能已从 `vue-frontend` 更名为 `frontend-development`，安装场景改为 `frontend`。已有安装不会自动删除旧目录；迁移时先检查旧技能是否包含自定义内容，再由用户移除旧副本，避免同时加载两份规则。
+Python 检查覆盖技能元数据、本地文件链接、参考可达性和配套布局；Go 测试覆盖安装场景、包校验、冲突处理及失败回滚。结构检查通过不代表 Agent 行为正确。[行为评估场景](tests/skill-evals/README.md)与实际执行证据分开维护，尚未运行的场景不计为通过。
+
+## 参考与来源
+
+- 阿里巴巴 Java 开发手册：版本、来源与采纳范围见 [规则映射](skills/java-backend/references/alibaba-rule-mapping.md)。
+- mattpocock 方法适配：见 [诊断来源](skills/diagnosing-bugs/references/provenance.md)、[审查来源](skills/code-review/references/provenance.md)及[建模来源](skills/business-modeling/references/provenance.md)，相应目录保留上游许可证。
+- humanizer-zh 使用技术文档适配版，保留 [MIT 许可证](skills/humanizer-zh/references/LICENSE)。
+
+历史方案与演进记录见 [设计文档](docs/java-vue-skills-design.md)、[实施记录](docs/implementation.md)和[参考讨论](docs/mattpocock-discussion.md)；当前用法以本 README 和技能入口为准。

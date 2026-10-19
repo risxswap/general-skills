@@ -1,0 +1,4 @@
+interface:
+  display_name: "代码审查"
+  short_description: "明确分支与工作区审查范围，分别核对代码规范和需求实现并报告有据发现"
+  default_prompt: "使用 $code-review 处理当前任务，先明确范围，再给出有证据的结论。"
