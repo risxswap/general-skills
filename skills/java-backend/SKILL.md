@@ -7,7 +7,7 @@ description: 开发、修复或审查 Java 后端接口、业务服务、持久�
 
 读取目标项目 `AGENTS.md`、pom.xml 或 Gradle 配置、实际 JDK 和框架版本、数据访问实现、迁移和测试。项目的 `AGENTS.md` 缺少架构或技术栈定义，或定义与实现冲突时，读取 [项目约定](../development-workflow/references/project-conventions.md)，先调查、再与用户确认，沿用当前任务模式。
 
-直接承担开发任务时读取 [开发流程](../development-workflow/SKILL.md)，沿用已有阶段，局部修改采用轻量流程。被开发、诊断、审查或建模技能作为技术参考读取时，只提供当前所需规则，不回调工作流或重新确定任务模式。
+直接承担开发任务时读取 [开发流程](../development-workflow/SKILL.md)，沿用已有阶段，无对应 Spec 的局部修改采用轻量流程；有对应 Spec 的实施遵循公共 [实施计划与子 agent 执行](../development-workflow/references/implementation-planning.md) 规则。被开发、诊断、审查或建模技能作为技术参考读取时，只提供当前所需规则，不回调工作流或重新确定任务模式。
 
 进入任务时读取已有词汇表（如 `GLOSSARY.md`）、相关 Issue / Spec 和 ADR，沿用业务术语与已确定取舍；资料缺失不要求补齐整套文档。
 
