@@ -17,19 +17,25 @@ import (
 	"strings"
 )
 
-var Common = []string{"development-workflow", "business-modeling", "diagnosing-bugs", "code-review", "humanizer-zh"}
-var ScenarioNames = []string{"general", "java", "frontend", "fullstack"}
+var Common = []string{"development-workflow", "diagnosing-bugs", "code-review", "humanizer-zh"}
+var Testing = []string{"testing-workflow", "api-testing", "ui-testing"}
+var ScenarioNames = []string{"general", "java", "frontend", "fullstack", "testing"}
 
 func Skills(s string) ([]string, error) {
 	result := append([]string{}, Common...)
 	switch s {
 	case "general":
 	case "java":
+		result = append(result, Testing...)
 		result = append(result, "java-backend")
 	case "frontend":
+		result = append(result, Testing...)
 		result = append(result, "frontend-development")
 	case "fullstack":
+		result = append(result, Testing...)
 		result = append(result, "java-backend", "frontend-development")
+	case "testing":
+		result = append([]string{}, Testing...)
 	default:
 		return nil, fmt.Errorf("unknown scenario %q", s)
 	}

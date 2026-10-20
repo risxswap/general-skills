@@ -13,7 +13,7 @@ from urllib.parse import unquote, urlsplit
 import yaml
 
 
-EXPECTED = {"development-workflow", "java-backend", "frontend-development", "humanizer-zh", "diagnosing-bugs", "code-review", "business-modeling"}
+EXPECTED = {"development-workflow", "java-backend", "frontend-development", "humanizer-zh", "diagnosing-bugs", "code-review", "testing-workflow", "api-testing", "ui-testing"}
 LINK = re.compile(r"\[[^\]\n]*\]\((<[^>]+>|[^\s)]+)\)")
 
 

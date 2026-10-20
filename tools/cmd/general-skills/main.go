@@ -21,7 +21,7 @@ func main() {
 }
 func run(args []string, in io.Reader, out io.Writer) error {
 	if len(args) > 0 && (args[0] == "--help" || args[0] == "help" || args[0] == "-h") {
-		fmt.Fprintln(out, "general-skills [install|package|version]\ninstall: --scenario general|java|frontend|fullstack --scope project|user [--project-dir PATH] [--bundle ZIP] [--conflict fail|skip|replace] [--dry-run]\n无参数进入交互安装。\npackage: --root PATH --output PATH --version X.Y.Z --targets darwin/arm64,windows/amd64,...")
+		fmt.Fprintln(out, "general-skills [install|package|version]\ninstall: --scenario general|java|frontend|fullstack|testing --scope project|user [--project-dir PATH] [--bundle ZIP] [--conflict fail|skip|replace] [--dry-run]\n无参数进入交互安装。\npackage: --root PATH --output PATH --version X.Y.Z --targets darwin/arm64,windows/amd64,...")
 		return nil
 	}
 	if len(args) > 0 && args[0] == "version" {
@@ -34,7 +34,7 @@ func run(args []string, in io.Reader, out io.Writer) error {
 		root := f.String("root", ".", "仓库目录")
 		output := f.String("output", "dist", "新建输出目录")
 		v := f.String("version", "", "版本号")
-		targets := f.String("targets", "darwin/amd64,darwin/arm64,windows/amd64,windows/arm64,linux/amd64,linux/arm64", "目标平台")
+		targets := f.String("targets", "darwin/arm64", "目标平台")
 		if e := f.Parse(args[1:]); e != nil {
 			return e
 		}
@@ -82,12 +82,22 @@ func run(args []string, in io.Reader, out io.Writer) error {
 		return strings.TrimSpace(s), nil
 	}
 	if interactive {
-		s, e := ask("场景 1=通用开发 2=Java 3=前端 4=全栈: ")
+		labels := map[string]string{"general": "通用开发", "java": "Java 后端开发", "frontend": "前端开发", "fullstack": "全栈开发", "testing": "专项测试"}
+		choices := make(map[string]string)
+		fmt.Fprintln(out, "请选择安装场景：")
+		for i, scenario := range kit.ScenarioNames {
+			names, err := kit.Skills(scenario)
+			if err != nil {
+				return err
+			}
+			choices[fmt.Sprint(i+1)] = scenario
+			fmt.Fprintf(out, "%d. %s (%s)\n   技能：%s\n", i+1, labels[scenario], scenario, strings.Join(names, ", "))
+		}
+		s, e := ask("请输入场景编号: ")
 		if e != nil {
 			return e
 		}
-		m := map[string]string{"1": "general", "2": "java", "3": "frontend", "4": "fullstack"}
-		o.Scenario = m[s]
+		o.Scenario = choices[s]
 		if o.Scenario == "" {
 			return fmt.Errorf("无效场景")
 		}

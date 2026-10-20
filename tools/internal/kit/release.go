@@ -46,7 +46,12 @@ func Release(root, out, version, targets string) error {
 		if pair[0] == "windows" {
 			name += ".exe"
 		}
-		binary := filepath.Join(work, name)
+		packageName := "general-skills-" + pair[0] + "-" + pair[1]
+		packageDir := filepath.Join(work, packageName)
+		if e = os.Mkdir(packageDir, 0755); e != nil {
+			return e
+		}
+		binary := filepath.Join(packageDir, name)
 		cmd := exec.Command("go", "build", "-trimpath", "-ldflags", "-s -w -X main.version="+version, "-o", binary, "./cmd/general-skills")
 		cmd.Dir = filepath.Join(root, "tools")
 		for _, v := range os.Environ() {
@@ -62,9 +67,6 @@ func Release(root, out, version, targets string) error {
 		if e != nil {
 			return e
 		}
-		if e = os.Remove(binary); e != nil {
-			return e
-		}
 		readme := []byte("General Skills " + version + "\nRun " + name + " with no arguments for interactive installation.\nOffline: keep skills.bundle.zip beside the executable.\nExample: " + name + " install --scenario java --scope project --project-dir /path/to/project\nUse --dry-run to preview; conflicts default to fail.\nProject: <project>/.agents/skills; user: ~/.agents/skills.\n")
 		checks := []byte(fmt.Sprintf("%s  %s\n%s  skills.bundle.zip\n%s  README.txt\n", digest(executable), name, digest(bundle), digest(readme)))
 		var buf bytes.Buffer
@@ -77,6 +79,9 @@ func Release(root, out, version, targets string) error {
 			if item.n == name {
 				mode = 0755
 			}
+			if e = os.WriteFile(filepath.Join(packageDir, item.n), item.b, mode); e != nil {
+				return e
+			}
 			if e = zipWrite(z, item.n, item.b, mode); e != nil {
 				return e
 			}
@@ -84,7 +89,7 @@ func Release(root, out, version, targets string) error {
 		if e = z.Close(); e != nil {
 			return e
 		}
-		archive := "general-skills-" + version + "-" + pair[0] + "-" + pair[1] + ".zip"
+		archive := packageName + ".zip"
 		if e = os.WriteFile(filepath.Join(work, archive), buf.Bytes(), 0644); e != nil {
 			return e
 		}

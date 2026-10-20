@@ -24,8 +24,8 @@ description: 诊断 Java 或前端项目中的复杂缺陷、偶发故障和性�
 
 ## 交付
 
-说明症状、实际复现命令及结果、哪些假设被排除、根因证据、变更和回归结果。只定位的任务交付结论和修复建议，不自动改业务代码。无法验证时给出具体缺口；测试运行要求沿用公共 [验证与交付](../development-workflow/references/verification-and-delivery.md)。生成中文诊断文档时使用 [humanizer-zh](../humanizer-zh/SKILL.md)，保留证据与不确定性。
+诊断形成阶段性结论或完成修复时，按公共 [BUG 修复记录](../development-workflow/references/requirements-and-bugfixes.md) 保存问题、根因证据、方案与验证结果；明确要求只读或不写文件时在回复中交付。
 
-本技能按本套项目边界改写自 mattpocock 的诊断方法；来源及适配见 [来源说明](references/provenance.md)。
+说明症状、实际复现命令及结果、哪些假设被排除、根因证据、变更和回归结果。只定位的任务交付结论和修复建议，不自动改业务代码。无法验证时给出具体缺口；测试运行要求沿用公共 [验证与交付](../development-workflow/references/verification-and-delivery.md)。生成中文诊断文档时使用 [humanizer-zh](../humanizer-zh/SKILL.md)，保留证据与不确定性。
 
 Java 后端与前端专项随安装场景提供，属于可选路由。需要该专项时，先检查同一安装根下的 `<技能名>/SKILL.md` 是否存在；存在再读取，未安装时沿用项目规范并说明专项未加载，不把它当公共配套损坏，也不自动安装。

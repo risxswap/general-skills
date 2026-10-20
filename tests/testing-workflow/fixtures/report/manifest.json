@@ -1,0 +1,82 @@
+{
+  "run_id": "RUN-20260908-001",
+  "plan_id": "PLAN-20260908-001",
+  "application_version": "1.2.3",
+  "environment": "test-01",
+  "started_at": "2026-09-08T10:00:00+08:00",
+  "ended_at": "2026-09-08T10:15:00+08:00",
+  "requirements": ["REQ-1", "REQ-2", "REQ-3", "REQ-4", "REQ-5"],
+  "operations": ["createUser", "getUser"],
+  "cases_revision": "abc123",
+  "openapi_fingerprint": "sha256:def456",
+  "executor_version": "fixture-1",
+  "planned_cases": [
+    {
+      "case_id": "API-001",
+      "case_revision": "r1",
+      "case_type": "接口测试",
+      "module": "用户",
+      "priority": "P0",
+      "requirement_ids": ["REQ-1"],
+      "operation_id": "createUser",
+      "source": "cases/api/users.md:20",
+      "executor": "http",
+      "executor_version": "fixture-http-1",
+      "required_for_conclusion": true
+    },
+    {
+      "case_id": "API-002",
+      "case_revision": "r1",
+      "case_type": "接口测试",
+      "module": "用户",
+      "priority": "P1",
+      "requirement_ids": ["REQ-2"],
+      "operation_id": "getUser",
+      "source": "cases/api/users.md:30",
+      "executor": "http",
+      "executor_version": "fixture-http-1",
+      "required_for_conclusion": true
+    },
+    {
+      "case_id": "UI-001",
+      "case_revision": "r1",
+      "case_type": "UI 集成测试",
+      "module": "订单",
+      "priority": "P0",
+      "requirement_ids": ["REQ-3"],
+      "operation_id": null,
+      "source": "cases/ui-integration/orders.md:15",
+      "executor": "playwright",
+      "executor_version": "Playwright 1.55.0",
+      "required_for_conclusion": true
+    },
+    {
+      "case_id": "UI-002",
+      "case_revision": "r1",
+      "case_type": "UI 集成测试",
+      "module": "订单",
+      "priority": "P2",
+      "requirement_ids": ["REQ-4"],
+      "operation_id": null,
+      "source": "cases/ui-integration/orders.md:25",
+      "executor": "agent-browser",
+      "executor_version": "Codex browser fixture-1",
+      "required_for_conclusion": false
+    },
+    {
+      "case_id": "UI-003",
+      "case_revision": "r1",
+      "case_type": "UI 集成测试",
+      "module": "订单",
+      "priority": "P2",
+      "requirement_ids": ["REQ-5"],
+      "operation_id": null,
+      "source": "cases/ui-integration/orders.md:35",
+      "executor": "playwright",
+      "executor_version": "Playwright 1.55.0",
+      "required_for_conclusion": false
+    }
+  ],
+  "unverified": ["REQ-5"],
+  "residual_risks": ["共享环境偶发延迟"]
+}

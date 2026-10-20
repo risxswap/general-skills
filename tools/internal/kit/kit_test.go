@@ -32,6 +32,25 @@ func fixture(t *testing.T) *Bundle {
 	return b
 }
 func exists(p string) bool { _, e := os.Stat(p); return e == nil }
+func TestScenarioContents(t *testing.T) {
+	want := map[string][]string{
+		"general":   {"code-review", "development-workflow", "diagnosing-bugs", "humanizer-zh"},
+		"java":      {"api-testing", "code-review", "development-workflow", "diagnosing-bugs", "humanizer-zh", "java-backend", "testing-workflow", "ui-testing"},
+		"frontend":  {"api-testing", "code-review", "development-workflow", "diagnosing-bugs", "frontend-development", "humanizer-zh", "testing-workflow", "ui-testing"},
+		"fullstack": {"api-testing", "code-review", "development-workflow", "diagnosing-bugs", "frontend-development", "humanizer-zh", "java-backend", "testing-workflow", "ui-testing"},
+		"testing":   {"api-testing", "testing-workflow", "ui-testing"},
+	}
+	if len(ScenarioNames) != len(want) {
+		t.Fatalf("unexpected scenarios: %v", ScenarioNames)
+	}
+	for _, scenario := range ScenarioNames {
+		got, err := Skills(scenario)
+		if err != nil || !reflect.DeepEqual(got, want[scenario]) {
+			t.Fatalf("%s: got %v, want %v, error %v", scenario, got, want[scenario], err)
+		}
+	}
+}
+
 func TestScenariosAndOfflineInstall(t *testing.T) {
 	b := fixture(t)
 	for _, s := range ScenarioNames {
@@ -125,7 +144,7 @@ func TestRollbackOnCommitFailure(t *testing.T) {
 	if _, e := Install(b, o, dest); e != nil {
 		t.Fatal(e)
 	}
-	marker := filepath.Join(dest, "business-modeling", "custom.txt")
+	marker := filepath.Join(dest, "code-review", "custom.txt")
 	os.WriteFile(marker, []byte("keep"), 0600)
 	o.Conflict = "replace"
 	count := 0
@@ -159,7 +178,7 @@ func TestRejectedTargetsAndLock(t *testing.T) {
 	if _, e := Install(b, Options{Scenario: "general", Conflict: "replace"}, dest); e == nil {
 		t.Fatal("file conflict accepted")
 	}
-	if exists(filepath.Join(dest, "business-modeling")) {
+	if exists(filepath.Join(dest, "development-workflow")) {
 		t.Fatal("partial installation")
 	}
 	os.Remove(filepath.Join(dest, "code-review"))

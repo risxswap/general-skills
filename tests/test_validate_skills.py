@@ -36,7 +36,7 @@ class BundleValidationTests(unittest.TestCase):
         self.assertTrue(any("missing target ../humanizer-zh/SKILL.md" in e for e in errors))
 
     def test_missing_method_skills_are_reported(self):
-        for name in ("diagnosing-bugs", "code-review", "business-modeling"):
+        for name in ("diagnosing-bugs", "code-review"):
             with self.subTest(skill=name):
                 source = self.root / "skills" / name
                 saved = self.root / name
